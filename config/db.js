@@ -1,9 +1,9 @@
 module.exports = {
   development: {
-    username: process.env.DEVUN || 'root',
-    password: process.env.DEVPW || 'password',
-    database: process.env.DEVDB || 'instagramevents',
-    host: process.env.DEVHOST || 'localhost',
+    username: process.env.DEVUN || 'sociovent',
+    password: process.env.DEVPW || 'IN-telligent98',
+    database: process.env.DEVDB || 'sociovent',
+    host: process.env.DEVHOST || 'database-2.cma3dbx5jhql.us-east-2.rds.amazonaws.com',
     dialect: 'mysql',
   },
   production: {
