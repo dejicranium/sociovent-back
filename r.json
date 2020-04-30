@@ -1,0 +1,23 @@
+{
+  "boot": "/boot/loader",
+  "middlewares": "/routes/middlewares",
+  "routemeta": "/routes/middlewares/routemeta",
+  "appvalues": "/utils/appvalues",
+  "obval": "/utils/obval",
+  "errorer": "/utils/errorer",
+  "obscrub": "/utils/obscrub",
+  "services": "/services",
+  "mt1l": "/utils/index",
+  "morxjest": "/utils/morxjest",
+  "objectlooper": "/utils/objectlooper",
+  "app_config": "/config/app",
+  "models": "/models/sequelize",
+  "mongo_models": "/models/mongo",
+  "logger": "/utils/logger",
+  "mongolog": "/services/log/create",
+  "errorlogger": "/utils/logger",
+  "qb": "/utils/querybuilder",
+  "paginate": "/utils/paginate",
+  "assertions": "/utils/assertions",
+	"validators": "/utils/validators"
+}
