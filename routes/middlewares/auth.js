@@ -19,7 +19,7 @@ module.exports = async function (req, res, next) {
         utils.jsonF(res, null, "Access token required");
         return;
     }
-    jwt.verify(auth_token, config.JWTsecret, function (err, decoded) {
+    jwt.verify(auth_token, config.JWTsecret, async function (err, decoded) {
 
         if (err) {
             utils.json401(res, null, "Invalid access token");
@@ -33,6 +33,15 @@ module.exports = async function (req, res, next) {
         let decoded_auth_token = jwt_decode(auth_token)
 
         req.user = decoded_auth_token.user;
+
+        const authtoken = await models.auth_tokens.findOne({
+            where: {
+                user_id: req.user.id,
+                type: 'session',
+                token: auth_token
+            }
+        })
+        if (!authtoken) utils.json401(res, null, "Incorrect access token");
         next();
         return;
     });

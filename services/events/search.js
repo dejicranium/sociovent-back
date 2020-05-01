@@ -175,8 +175,10 @@ function service(data) {
         }
         else {
             if (!resp) {
+              
                 d.resolve(paginate([], 'events', 0, params.limit, params.page))
             }
+        
             d.resolve(paginate(resp.rows, 'events', resp.count, params.limit, params.page));
         }
     })
