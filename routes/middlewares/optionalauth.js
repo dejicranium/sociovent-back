@@ -17,17 +17,17 @@ module.exports = async function (req, res, next) {
     const d = q.defer();
     if (!auth_token) {
         //utils.jsonF(res, null, "Access token required");
-        return;
+        next();
     }
     jwt.verify(auth_token, config.JWTsecret, function (err, decoded) {
 
         if (err) {
            // utils.json401(res, null, "Invalid access token");
-            return;
+            next();
         }
         if (decoded && decoded.expiry < new Date()) {
            // utils.json401(res, null, "Expired access token");
-            return;
+            next();
         }
 
         let decoded_auth_token = jwt_decode(auth_token)

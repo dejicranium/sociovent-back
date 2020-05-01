@@ -36,15 +36,3 @@ function service(data) {
 }
 service.morxspc = spec;
 module.exports = service;
-
-service({
-    country_origin: "NG",
-    description: "ewrwr",
-    host_social_handle: "werewrwr",
-    host_social_handle_link: "",
-    name: "Deji Atoyebi",
-    photo: "",
-    start_time: "2020-04-22 12:00 AM",
-    tags: "something,light,good",
-    venue: "Twitter"
-})
