@@ -7,6 +7,7 @@ const paginate = require('mlar')('paginate');
 
 var spec = morx.spec({})
     .build('event_id', 'required:false')
+    .build('user', 'required:false')
     .build('search', 'required:false')
     .build('name', 'required:false')
     .build('description', 'required:false, eg:Tina')
