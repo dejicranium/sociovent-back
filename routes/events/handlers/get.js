@@ -1,7 +1,7 @@
 const utils = require('mlar')('mt1l');
 const service = require('mlar').mreq('services', 'events/search');
 const routemeta = require('mlar')('routemeta');
-const auth = require('../../middlewares/auth')
+const auth = require('../../middlewares/optionalauth')
 
 function vinfo(req, res) {
   const serviceData = {
@@ -23,7 +23,7 @@ function vinfo(req, res) {
 vinfo.routeConfig = [{}];
 vinfo.routeConfig[0].path = '/';
 vinfo.routeConfig[0].method = 'get';
-vinfo.routeConfig[0].middlewares = [routemeta('get_events', 'none', ['requestId'])];
+vinfo.routeConfig[0].middlewares = [auth, routemeta('get_events', 'none', ['requestId'])];
 module.exports = vinfo;
 
 /*
