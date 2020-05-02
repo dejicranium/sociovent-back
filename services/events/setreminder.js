@@ -6,7 +6,7 @@ const moment = require("moment");
 const helpers = require('../../utils/helpers')
 const slugify = require('slugify');
 const editUser = require('../auth/edit_user');
-
+const sendReminderToSqs = require('../queue/send_reminder');
 
 var spec = morx.spec({})
     .build('user', 'required:true')
@@ -48,7 +48,7 @@ function service(data) {
         });
 
         if(r) throw new Error("Reminder has been set already for this event");
-
+        
         let date = moment(event.start_time).toISOString().split('T')[0];
         if (date) {
             params.first_reminder_time = date + ' ' +   helpers.convert12hourTime(params.first_reminder_time.split(' ')[0], params.first_reminder_time.split(' ')[1]);
@@ -76,6 +76,8 @@ function service(data) {
 
         event.update({potential_attendees: event.potential_attendees + 1})
         
+        await sendReminderToSqs(reminder);
+
         d.resolve(reminder);
     })
     .catch(err=> {
@@ -89,3 +91,13 @@ function service(data) {
 service.morxspc = spec;
 module.exports = service;
 
+
+service({
+    event_id: 1,
+    first_reminder_time: '2020-06-03 01:00:00',
+    location: 'whatsapp',
+    user: {
+        id: 1
+    }
+
+})
