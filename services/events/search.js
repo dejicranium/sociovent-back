@@ -3,6 +3,7 @@ const morx = require('morx');
 const q = require('q');
 const moment = require('moment');
 const paginate = require('mlar')('paginate');
+const { Op } = require('sequelize');
 
 
 var spec = morx.spec({})
@@ -32,12 +33,13 @@ function service(data) {
         });
         
 
-        const page = data.page ? parseInt(data.page) : 1;
+        let page = data.page ? parseInt(data.page) : 0;
+        if (!data.offset && !page) page = 1;
         const limit = data.limit ? parseInt(data.limit) : 20;
         const offset = data.offset ? data.offset : (page - 1) * limit;
 
         const params = validParameters.params;
-        params.page = page;
+        params.page = page || 1;
         params.limit = limit;
 
         const selection = {where: {}}
@@ -161,8 +163,9 @@ function service(data) {
             })
         }
         if (data.offset) {
+            console.log('data offset set')
             selection.offset = null; // we might get an offset from the fronted
-            selection.where.id = {$gte: data.offset}
+            selection.where.id = {[Op.gt]: data.offset}
         }
 
         return [models.events.findAndCountAll(selection), 'all', params]

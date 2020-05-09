@@ -9,9 +9,9 @@ function vinfo(req, res) {
 }
 
 vinfo.routeConfig = [{}];
-vinfo.routeConfig[0].path = '/isauthenticated';
+vinfo.routeConfig[0].path = '/rax';
 vinfo.routeConfig[0].method = 'post';
-vinfo.routeConfig[0].middlewares = [auth, routemeta('get_events', 'none', ['requestId'])];
+vinfo.routeConfig[0].middlewares = [auth, routemeta('isloggedin', 'none', ['requestId'])];
 module.exports = vinfo;
 
 /*

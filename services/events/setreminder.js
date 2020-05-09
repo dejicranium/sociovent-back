@@ -9,7 +9,7 @@ const editUser = require('../auth/edit_user');
 const sendReminderToSqs = require('../queue/send_reminder');
 
 var spec = morx.spec({})
-    .build('user', 'required:true')
+    .build('user', 'required:false')
     .build('event_id', 'required:true, eg:Tina')
     .build('save_phone', 'required:false, eg:Tina')
     .build('phone', 'required:false, eg:Tina')
@@ -43,7 +43,7 @@ function service(data) {
             raw: true,
             where: {
                 event_id: params.event_id,
-                user_id: params.user.id
+                user_id: params.user ? params.user.id : null
             }
         });
 
@@ -66,7 +66,7 @@ function service(data) {
 
         }
         const reminder = await models.reminders.create({
-            user_id: params.user.id,
+            user_id: params.user ? params.user.id : null,
             event_id: params.event_id,
             first_reminder_time: params.first_reminder_time,
             second_reminder_time: params.second_reminder_time,
@@ -91,7 +91,7 @@ function service(data) {
 service.morxspc = spec;
 module.exports = service;
 
-
+/*
 service({
     event_id: 1,
     first_reminder_time: '2020-06-03 01:00:00',
@@ -100,4 +100,4 @@ service({
         id: 1
     }
 
-})
+})*/
