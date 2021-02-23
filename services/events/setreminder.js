@@ -19,6 +19,7 @@ var spec = morx.spec({})
     .end();
 
 function service(data) {
+    let reminder = null;
 
     var d = q.defer();
     q.fcall(async () => {
@@ -50,6 +51,7 @@ function service(data) {
         if(r) throw new Error("Reminder has been set already for this event");
         
         let date = moment(event.start_time).toISOString().split('T')[0];
+        
         if (date) {
             params.first_reminder_time = date + ' ' +   helpers.convert12hourTime(params.first_reminder_time.split(' ')[0], params.first_reminder_time.split(' ')[1]);
             params.second_reminder_time = date + ' ' +  helpers.convert12hourTime(params.second_reminder_time.split(' ')[0], params.second_reminder_time.split(' ')[1]);
@@ -65,18 +67,29 @@ function service(data) {
             })
 
         }
-        const reminder = await models.reminders.create({
-            user_id: params.user ? params.user.id : null,
-            event_id: params.event_id,
-            first_reminder_time: params.first_reminder_time,
-            second_reminder_time: params.second_reminder_time,
-            location: params.location,
-            phone: params.phone
-        })    
+        if (moment(event.first_reminder_time).diff(moment(), 'hours') > 0) {
+
+            reminder = await models.reminders.create({
+                user_id: params.user ? params.user.id : null,
+                event_id: params.event_id,
+                first_reminder_time: params.first_reminder_time,
+                second_reminder_time: params.second_reminder_time,
+                location: params.location,
+                phone: params.phone
+            })    
+        }
+        else {
+           reminder = await models.reminder_hour_cache.create({
+                user_id: params.user ? params.user.id : null,
+                event_id: params.event_id,
+                first_reminder_time: params.first_reminder_time,
+                second_reminder_time: params.second_reminder_time,
+                location: params.location,
+                phone: params.phone
+            })
+        }
 
         event.update({potential_attendees: event.potential_attendees + 1})
-        
-        await sendReminderToSqs(reminder);
 
         d.resolve(reminder);
     })
@@ -90,14 +103,14 @@ function service(data) {
 }
 service.morxspc = spec;
 module.exports = service;
-
 /*
+
 service({
     event_id: 1,
-    first_reminder_time: '2020-06-03 01:00:00',
+    first_reminder_time: '2020-06-10 17:00:00',
     location: 'whatsapp',
     user: {
-        id: 1
+        id: 8
     }
 
 })*/

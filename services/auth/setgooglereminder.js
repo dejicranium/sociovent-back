@@ -144,7 +144,7 @@ function service(data) {
 }
 service.morxspc = spec;
 module.exports = service;
-
+/*
 service({
     code: '4/zQHL0uuYwFfed1mjvfguhWvXs8MFdbXP4PlmcBerJkCEIMQ2hnJpOA9JDZAL-7OTv3HDJpf0U827Wg01cWe72cU'
-})
+})*/

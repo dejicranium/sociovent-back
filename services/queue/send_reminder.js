@@ -13,15 +13,16 @@ function service(event) {
     var d = q.defer();
     q.fcall(async () => {
         if (!event) throw new Error("Event not passed")
-        if (event.first_reminder_time &&  moment(event.first_reminder_time).diff(moment(), 'days') == 0) {
-            try {
-                let result = await send_reminder(event);
-                console.log(result)
-                d.resolve(result)
-            }catch(e) {
-                console.log(e)
-            }
+        try {
+            ///let result = await send_reminder(event);
+            //console.log(result)
+
+            await models.reminder_hour_cache.create(event)
+            d.resolve(result)
+        }catch(e) {
+            console.log(e)
         }
+    
     })
     .catch(err=> {
         console.log(err.stack)

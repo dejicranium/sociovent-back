@@ -136,8 +136,8 @@ function service(data) {
 }
 service.morxspc = spec;
 module.exports = service;
-
+/*
 service({
     code: '4/zgF6cmYMfnMZ0DVQ5ODVCVYYCPc7U2d9i5B1sHoK_TNq9PdPyulXo-I00oqe5H9EH4akqf4_2YVFdHH1wHqXiKU',
     session_id: '434'
-})
+})*/

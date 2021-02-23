@@ -55,10 +55,10 @@ function service(data) {
 service.morxspc = spec;
 module.exports = service;
 
-
+/*
 service({
     session_id: '434',
     event_id: 3,
     
 
-})
+})*/

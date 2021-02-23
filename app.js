@@ -11,6 +11,8 @@ const formidable = require('express-formidable');
 const formData = require("express-form-data");
 
 
+const cronjob = require('./cron');
+
 // const path = require('path');
 const reqIp = require('request-ip');
 const throng = require('throng');
@@ -27,8 +29,12 @@ const apiAuthRoutes = require('./routes/auth');
 const apiRemindersRoutes = require('./routes/reminders');
 
 function startApp() {
+  cronjob.start();
+
+
   const app = express();
   const EndpointRouter = express.Router();
+
 
   // Uncomment if you need to expose contents of a directory
   // to be served directly via HTTP
